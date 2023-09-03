@@ -16,9 +16,9 @@ const emailForm = document.querySelector("#emailForm");
 
 const toast = document.querySelector(".toast");
 
-const baseURL = "https://file-expressapi.onrender.com";
-const uploadURL = `${baseURL}/api/v1/files`;
-const emailURL = `${baseURL}/api/v1/send`;
+const baseURL = "https://file-expressapi.onrender.com/api/v1";
+const uploadURL = `${baseURL}/files`;
+const emailURL = `${baseURL}/send`;
 
 const maxAllowedSize = 200 * 1024 * 1024; //200MB
 
@@ -116,7 +116,6 @@ const uploadFile = () => {
   xhr.open("POST", uploadURL);
   xhr.send(formData);
 };
-
 const onFileUploadSuccess = (res) => {
   fileInput.value = ""; // reset the input
   status.innerText = "Uploaded";
@@ -133,7 +132,9 @@ const onFileUploadSuccess = (res) => {
   content.innerHTML = `<h1>File uploaded successfully</h1>
   <h3>Share this link with your buddy</h3>
   <h3>or surprise them with mail</h3>`;
-  fileURL.value = url;
+  let ID = url.split("/").splice(-1, 1)[0];
+  fileURL.value = `${baseURL}/download/${ID}`;
+  console.log("uuid", ID, "url", url);
 };
 
 emailForm.addEventListener("submit", (e) => {
